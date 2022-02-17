@@ -1,0 +1,1 @@
+# Wordpress + NextJs frontend

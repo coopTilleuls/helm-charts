@@ -1,0 +1,29 @@
+{{- if .Values.frontend.enabled }}
+{{- if .Values.frontend.ingress.enabled -}}
+{{- $svcPort := .Values.frontend.service.port -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $.Release.Name }}-frontend
+  {{- with .Values.frontend.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  tls:
+  - hosts:
+    - {{ template "wordpress_front_domain" . }}
+    secretName: {{ .Release.Name }}-frontend-tls
+  rules:
+  - host: {{ template "wordpress_front_domain" . }}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ $.Release.Name }}-frontend
+              port:
+                number: {{ $svcPort }}
+{{- end }}
+{{- end }}

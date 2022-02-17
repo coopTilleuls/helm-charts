@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-wordpress
+spec:
+  {{- if not .Values.wordpress.autoscaling.enabled }}
+  replicas: {{ .Values.wordpress.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        release: {{ .Release.Name }}
+        app: wordpress
+    spec:
+      volumes:
+      {{- if .Values.wordpress.persistence.enabled }}
+      - name: wordpress
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-wordpress-pvc
+      {{- end }}
+      initContainers:
+      {{- if .Values.wordpress.persistence.enabled }}
+      - name: chown-mountpoint
+        image: "{{ .Values.wordpress.image.repository }}:{{ .Values.wordpress.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.wordpress.image.pullPolicy }}
+        securityContext:
+          runAsUser: 0
+        command:
+        - bash
+        - "-c"
+        - |
+          set -e
+            echo "changing mountpoint ownership"
+            chown www-data:www-data /var/www/html/
+        volumeMounts:
+        - name: wordpress
+          mountPath: /var/www/html/
+      {{- end }}
+      containers:
+      - name: wordpress
+        image: "{{ .Values.wordpress.image.repository }}:{{ .Values.wordpress.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.wordpress.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-configmap
+        env:
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-mysql
+              key: mysql-password
+        startupProbe:
+          httpGet:
+            path: /wp-json
+            port: {{ .Values.wordpress.service.port }}
+          failureThreshold: 30
+          periodSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /wp-json
+            port: {{ .Values.wordpress.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /wp-json
+            port: {{ .Values.wordpress.service.port }}
+        resources:
+          {{- toYaml .Values.wordpress.resources | nindent 12 }}
+        volumeMounts:
+        {{- if .Values.wordpress.persistence.enabled }}
+        - name: wordpress
+          mountPath: /var/www/html/
+        {{- end }}

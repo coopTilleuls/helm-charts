@@ -1,0 +1,47 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+spec:
+  {{- if not .Values.frontend.autoscaling.enabled }}
+  replicas: {{ .Values.frontend.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: frontend
+  template:
+    metadata:
+      labels:
+        release: {{ .Release.Name }}
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.frontend.service.port }}
+            protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-configmap
+        startupProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.frontend.service.port }}
+          failureThreshold: 30
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.frontend.service.port }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.frontend.service.port }}
+        resources:
+          {{- toYaml .Values.frontend.resources | nindent 12 }}
+{{- end }}
