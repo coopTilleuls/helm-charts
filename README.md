@@ -3,5 +3,5 @@
 ## Usage
 
 ```
-helm repo add https://cooptilleuls.github.io/helm-charts/
+helm repo add coopTilleuls https://cooptilleuls.github.io/helm-charts/
 ```
