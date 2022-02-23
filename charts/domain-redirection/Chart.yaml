@@ -1,4 +1,4 @@
 apiVersion: v2
-version: 1.0.1
+version: 1.0.2
 name: domain-redirection
-descrition: http redirections for old domain
+description: http redirections for old domain (old page to new page...)
