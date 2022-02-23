@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   domain-redirection:
   - apiVersion: v2
+    created: "2022-02-23T10:43:18.284058331Z"
+    description: http redirections for old domain (old page to new page...)
+    digest: 714b34e236110590e171635df48c4f0ffc9a1bd5badea2dfc52b403817525e27
+    name: domain-redirection
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/domain-redirection-1.0.2/domain-redirection-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     created: "2022-02-23T10:38:03.362712894Z"
     digest: dee750cc7c41c986dd017cef1f67e523f5baf80f3791537fa480333f5e4e4afb
     name: domain-redirection
@@ -23,4 +31,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-02-23T10:38:03.362719594Z"
+generated: "2022-02-23T10:43:18.284066432Z"
