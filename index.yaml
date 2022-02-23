@@ -8,14 +8,6 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/domain-redirection-1.0.1/domain-redirection-1.0.1.tgz
     version: 1.0.1
-  redirections:
-  - apiVersion: v2
-    created: "2022-02-23T10:34:24.803487723Z"
-    digest: 62e2cfcfff46d30dc1fb75db31cd85329ecb345f90d518aa1d954fa178c57c48
-    name: redirections
-    urls:
-    - https://github.com/coopTilleuls/helm-charts/releases/download/redirections-1.0.0/redirections-1.0.0.tgz
-    version: 1.0.0
   wp-next:
   - apiVersion: v2
     created: "2022-02-17T12:54:46.642983223Z"
