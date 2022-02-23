@@ -1,4 +1,4 @@
 apiVersion: v2
-version: 1.0.0
-name: redirections
-descrition: http redirections for old masterclass domain
+version: 1.0.1
+name: domain-redirection
+descrition: http redirections for old domain
