@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-redirections
+data:
+  httpd.conf: |
+    {{- .Files.Get "files/httpd.conf" | nindent 4 }}
+  redirections.conf: |
+    {{- required "--set-file redirections=redirection.conf is missing" .Values.redirections | nindent 4 }}
+

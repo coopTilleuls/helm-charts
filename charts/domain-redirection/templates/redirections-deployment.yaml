@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-redirections
+spec:
+  selector:
+    matchLabels:
+      app: httpd
+      release: {{ .Release.Name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: httpd
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: httpd
+        image: httpd:2.4-alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: httpd-config
+          mountPath: /usr/local/apache2/conf/httpd.conf
+          subPath: httpd.conf
+        - name: httpd-config
+          mountPath: /usr/local/apache2/conf/redirections.conf
+          subPath: redirections.conf
+      volumes:
+      - name: httpd-config
+        configMap:
+           name: {{ .Release.Name }}-redirections
+           items:
+             - key: httpd.conf
+               path: httpd.conf
+             - key: redirections.conf
+               path: redirections.conf
