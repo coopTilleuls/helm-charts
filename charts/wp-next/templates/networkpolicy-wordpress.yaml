@@ -1,0 +1,44 @@
+{{- if .Values.networkPolicy.enabled }}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-default-deny-ingress
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+  policyTypes:
+  - Ingress
+---
+kind: NetworkPolicy
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+metadata:
+  name: {{ .Release.Name }}-wordpress
+  labels:
+    release: {{ .Release.Name }}
+    app: wordpress
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: wordpress
+  ingress:
+    # Allow inbound connections
+    - ports:
+      - port: 8080
+      from:
+      {{- range .Values.networkPolicy.namespaceSelectors }}
+      - podSelector: {}
+        namespaceSelector:
+          matchLabels:
+          {{- toYaml . | nindent 12 }}
+      {{- end }}  
+{{- end }}

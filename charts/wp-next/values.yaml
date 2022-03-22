@@ -113,3 +113,11 @@ mysql:
 
 site_front_domain: chart-example.local
 site_back_domain: api.chart-example.local
+
+networkPolicy:
+  enabled: true
+  # List of namespaces to allow, based on their labels
+  namespaceSelectors:
+  - service: ingress
+  - service: monitoring
+    #other_label: value
