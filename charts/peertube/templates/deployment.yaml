@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-peertube
+  labels:
+    app: peertube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: peertube
+  template:
+    metadata:
+      labels:
+        app: peertube
+    spec:
+      containers:
+        - name: peertube
+          image: chocobozzz/peertube:v4.1.1-bullseye
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 443
+              name: https
+            - containerPort: 9000
+              name: peertube
+            - containerPort: 1935
+              name: rtmp
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-peertube
+            - configMapRef:
+                name: {{ .Release.Name}}-peertube
+          env:
+            - name: PEERTUBE_REDIS_HOSTNAME
+              value: "localhost"
+            - name: PEERTUBE_REDIS_AUTH
+              value: ""
+            - name: PEERTUBE_LOG_LEVEL
+              value: "debug"
+          volumeMounts:
+            - name: peertube-data
+              mountPath: /data
+          resources: {{- toYaml .Values.peertube.resources | nindent 12 }}
+        - name: redis
+          image: redis:6-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+              name: redis
+      volumes:
+        - name: peertube-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-peertube-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-peertube-data
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: {{ .Values.peertube.storage.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.peertube.storage.requests.storage }}
+

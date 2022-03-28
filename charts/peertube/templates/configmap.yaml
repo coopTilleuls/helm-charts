@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-peertube
+data:
+  POSTGRES_USER: {{ .Values.postgresql.auth.username }}
+  POSTGRES_DB: {{ .Values.postgresql.auth.database }}
+  PEERTUBE_DB_USERNAME: {{ .Values.postgresql.auth.username }}
+  PEERTUBE_DB_SSL: "false"
+  PEERTUBE_DB_HOSTNAME: {{ include "postgresql_host" . }}
+  PEERTUBE_DB_PORT: "5432"
+  PEERTUBE_WEBSERVER_HOSTNAME: {{ index .Values.peertube.urls 0 }}
+  PEERTUBE_SMTP_USERNAME: {{ .Values.peertube.smtp.user }}
+  PEERTUBE_SMTP_HOSTNAME: {{ .Values.peertube.smtp.hostname }}
+  PEERTUBE_SMTP_PORT: "587"
+  PEERTUBE_SMTP_FROM: {{ .Values.peertube.smtp.from }}
+  PEERTUBE_SMTP_TLS: "false"
+  PEERTUBE_SMTP_DISABLE_STARTTLS: "false"
+  PEERTUBE_ADMIN_EMAIL: {{ .Values.peertube.admin_email }}
+  PEERTUBE_OBJECT_STORAGE_ENDPOINT: {{ .Values.peertube.object_storage.endpoint }}
+  PEERTUBE_OBJECT_STORAGE_REGION: {{ .Values.peertube.object_storage.region }}
+  PEERTUBE_OBJECT_STORAGE_ENABLED: {{ .Values.peertube.object_storage.enabled | quote }}
+  PEERTUBE_OBJECT_STORAGE_STREAMING_PLAYLISTS_BUCKET_NAME: {{ .Values.peertube.object_storage.bucket_name }}
+  PEERTUBE_OBJECT_STORAGE_STREAMING_PLAYLISTS_PREFIX: "streaming-playlists/"
+  PEERTUBE_OBJECT_STORAGE_VIDEOS_BUCKET_NAME: {{ .Values.peertube.object_storage.bucket_name }}
+  PEERTUBE_OBJECT_STORAGE_VIDEOS_PREFIX: "videos/"
+  PEERTUBE_INSTANCE_NAME: {{ .Values.peertube.instance_name | quote }}
+  PEERTUBE_INSTANCE_DESCRIPTION: {{ .Values.peertube.instance_desc | quote }} 
+

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-peertube-sync-youtube
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  jobTemplate:  
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          containers:
+          - command:
+            - su 
+            - peertube 
+            - -c 
+            - |
+              mkdir -p /data/bin
+              export NODE_ENV=develop
+              NOCLIENT=1 yarn install --pure-lockfile --production=false
+              npm run setup:cli
+              export NODE_ENV=production
+              node /app/dist/server/tools/peertube.js auth add -u "https://{{ index .Values.peertube.urls 0 }}" -U "{{ .Values.peertube.user }}" --password "{{ .Values.peertube.password }}"
+              node /app/dist/server/tools/peertube.js import-videos --target-url "{{ .Values.peertube.import_job.target_url }}"
+            image: chocobozzz/peertube:v4.1.1-bullseye
+            imagePullPolicy: IfNotPresent
+            name: peertube
+            resources: {{- toYaml .Values.peertube.import_job.resources | nindent 14 }}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  schedule: {{ .Values.peertube.import_job.sync_schedule }}
+  successfulJobsHistoryLimit: 1

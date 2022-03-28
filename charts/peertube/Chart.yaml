@@ -1,0 +1,11 @@
+apiVersion: v2
+name: peertube
+description: Peertube and Postgres deployment, based on https://github.com/coopgo/peertube-k8s
+type: application
+version: 1.0.0
+dependencies:
+  - name: postgresql
+    version: 11.1.9
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+

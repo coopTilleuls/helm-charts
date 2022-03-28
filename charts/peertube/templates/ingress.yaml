@@ -1,0 +1,37 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-peertube
+  labels:
+    app: peertube
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: {{ .Values.peertube.cluster_issuer }}
+    cert-manager.io/acme-challenge-type: http01
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    #Unlimited for the uploading videos in cronjob
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: ALLOWALL";
+spec:
+  tls:
+    - hosts:
+      {{- toYaml .Values.peertube.urls | nindent 8 }}
+      secretName: {{ .Release.Name }}-tls
+  rules:
+      {{- range .Values.peertube.urls }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Release.Name }}-peertube
+                port: 
+                  number: 9000
+      {{- end }}      

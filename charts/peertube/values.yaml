@@ -1,0 +1,63 @@
+peertube:
+  urls:
+    - "change_me"
+    #- "change_me2"
+  cluster_issuer: "letsencrypt-production"
+  user: "change_me "
+  password: "change_me"
+  import_job:      
+    #The link of video or the all videos of a channel to sync with your peertube
+    target_url: " "
+    sync_schedule: "0 13 * * *"
+    resources:
+      requests:
+        cpu: "0m"
+        memory: "300Mi"
+      limits:
+        cpu: "300m"
+        memory: "300Mi"
+  storage:
+    storageClassName: "standard"
+    requests:
+      storage: "10Gi"
+  resources:
+    requests:
+      cpu: "0m"
+      memory: "120Mi"
+    limits:
+      cpu: "400m"
+      memory: "250Mi"
+  smtp:
+    user: "change_me"
+    password: "change_me"
+    hostname: "change_me"
+    from: "change_me"
+  admin_email: "change_me"
+  object_storage:
+    enabled: "true"
+    endpoint: "change_me"
+    region: "change_me"
+    bucket_name: "change_me"
+    credentials:
+      access_key_id: "change_me"
+      secret_access_key: "change_me"
+  instance_name: "change_me"
+  instance_desc: "change_me"
+
+postgresql:
+  enabled: true
+  #Only set db_hostname when you use external postgres database
+  #db_hostname: "change_me"
+  auth:
+    username: "peertube" 
+    password: "change_me" 
+    database: "peertube" 
+  primary: 
+    persistence: 
+      storageClass: "standard" 
+      size: 1Gi 
+    resources: 
+      requests: 
+        cpu: "0"
+        memory: "40Mi"
+
