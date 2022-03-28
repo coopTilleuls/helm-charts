@@ -16,6 +16,21 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/domain-redirection-1.0.1/domain-redirection-1.0.1.tgz
     version: 1.0.1
+  peertube:
+  - apiVersion: v2
+    created: "2022-03-28T09:32:57.346055843Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.9
+    description: Peertube and Postgres deployment, based on https://github.com/coopgo/peertube-k8s
+    digest: 9c27b6f858081c321baeb39fb8b87943c3f15d9dd01da762cb4d09e2eb1372e7
+    name: peertube
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/peertube-1.0.0/peertube-1.0.0.tgz
+    version: 1.0.0
   wp-next:
   - apiVersion: v2
     created: "2022-03-23T08:17:46.633881859Z"
@@ -59,4 +74,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-03-23T08:17:46.633904469Z"
+generated: "2022-03-28T09:32:57.346071344Z"
