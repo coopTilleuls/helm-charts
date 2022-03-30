@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: admin
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: admin
+          image: {{ .Values.admin.image }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.admin.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-admin

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: api
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+      - name: php-socket
+        emptyDir: {}
+      containers:
+        - name: caddy
+          image: {{ .Values.api.caddy.image }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.api.caddy.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-caddy
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket
+        - name: php
+          image: {{ .Values.api.php.image }}
+          startupProbe:
+            exec:
+              command:
+              - docker-healthcheck
+            # Leave time to entrypoint at first startup
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+              - docker-healthcheck
+          readinessProbe:
+            exec:
+              command:
+              - docker-healthcheck
+          resources:
+            {{- toYaml .Values.api.php.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-php
+          - secretRef:
+              name: {{ .Release.Name }}-php
+          - secretRef:
+              name: {{ .Release.Name }}-jwt
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket

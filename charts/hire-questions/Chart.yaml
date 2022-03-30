@@ -1,0 +1,11 @@
+apiVersion: v2
+name: api-platform-spa
+description: API platform plus Single Page Application
+type: application
+version: 1.0.0
+dependencies:
+  - name: mysql
+    version: 8.8.16
+    repository: https://charts.bitnami.com/bitnami
+    condition: mysql.enabled
+appVersion: "0.0.1"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-spa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spa
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: spa
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: spa
+          image: {{ .Values.spa.image }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.spa.resources | nindent 12 }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Release.Name }}-spa

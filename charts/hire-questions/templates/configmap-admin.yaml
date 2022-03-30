@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-admin
+data:
+  API_URL: https://api-{{ .Values.dns_suffix }}
+  TEST_URL: https://{{ .Values.dns_suffix }}

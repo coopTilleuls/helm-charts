@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-php
+data:
+  APP_ENV: prod
+  #APP_ENV: dev
+  #APP_DEBUG: "1"
+  CORS_ALLOW_ORIGIN: ^https?://(admin-)?{{ .Values.dns_suffix | replace "." "\\." }}$
+  TRUSTED_HOSTS: ^(admin-)?{{ .Values.dns_suffix | replace "." "\\\\." }}|localhost|127.0.0.1$
+  TRUSTED_PROXIES: "127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+  FRONT_URL: "https://{{ .Values.dns_suffix }}/#{id}"
+  FRONT_BASE_URL: "https://{{ .Values.dns_suffix }}"
+  APP_SECRET: 339bb121f10f62a068521627b9edc34d
+  JWT_SECRET_KEY: "%kernel.project_dir%/config/jwt/private.pem"
+  JWT_PUBLIC_KEY: "%kernel.project_dir%/config/jwt/public.pem"
+  MAILER_DSN: "null://null"
+  NOTIFICATION_SENDERS: "[\"gregoire@les-tilleuls.coop\"]"

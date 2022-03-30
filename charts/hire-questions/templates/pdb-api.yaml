@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-api
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: api
+      release: {{ .Release.Name }}

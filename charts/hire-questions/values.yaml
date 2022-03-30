@@ -1,0 +1,71 @@
+spa:
+  image: registry/repo/image:tag
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+admin:
+  image: registry/repo/image:tag
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+api:
+  caddy:
+    image: registry/repo/image:tag
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+  php:
+    image: registry/repo/image:tag
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+  jwt:
+    public_key: |
+      change public key
+    secret_key: |
+      change secret key
+    passphrase: changme
+
+dns_suffix: preprod.example.com
+#       $dns_suffix : test site
+#   api-$dns_suffix : api
+# admin-$dns_suffix : admin
+
+ingresses:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  ingressClassName: nginx
+
+mysql:
+  enabled: false
+  auth:
+    username: "change_me"
+    password: "change_me"
+    database: "change_me"
+    rootPassword: "change_me"
+  external_host: "your_external_database_ip"
+
+networkPolicy:
+  enabled: true
+  # List of namespaces to allow, based on their labels
+  namespaceSelectors:
+  - service: ingress
+  - service: monitoring
+    #other_label: value

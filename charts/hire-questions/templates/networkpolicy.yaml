@@ -1,0 +1,105 @@
+{{- if .Values.networkPolicy.enabled }}
+
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-default-deny-ingress
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+  policyTypes:
+  - Ingress
+
+---
+kind: NetworkPolicy
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+metadata:
+  name: {{ .Release.Name }}-admin
+  labels:
+    release: {{ .Release.Name }}
+    app: admin
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: admin
+  ingress:
+    # Allow inbound connections
+    - ports:
+      - port: 80
+      from:
+      {{- range .Values.networkPolicy.namespaceSelectors }}
+      - podSelector: {}
+        namespaceSelector:
+          matchLabels:
+          {{- toYaml . | nindent 12 }}
+      {{- end }}  
+
+---
+kind: NetworkPolicy
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+metadata:
+  name: {{ .Release.Name }}-api
+  labels:
+    release: {{ .Release.Name }}
+    app: api
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: api
+  ingress:
+    # Allow inbound connections
+    - ports:
+      - port: 80
+      from:
+      {{- range .Values.networkPolicy.namespaceSelectors }}
+      - podSelector: {}
+        namespaceSelector:
+          matchLabels:
+          {{- toYaml . | nindent 12 }}
+      {{- end }}  
+
+---
+kind: NetworkPolicy
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+apiVersion: networking.k8s.io/v1
+{{- else }}
+apiVersion: extensions/v1beta1
+{{- end }}
+metadata:
+  name: {{ .Release.Name }}-spa
+  labels:
+    release: {{ .Release.Name }}
+    app: spa
+spec:
+  podSelector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: spa
+  ingress:
+    # Allow inbound connections
+    - ports:
+      - port: 80
+      from:
+      {{- range .Values.networkPolicy.namespaceSelectors }}
+      - podSelector: {}
+        namespaceSelector:
+          matchLabels:
+          {{- toYaml . | nindent 12 }}
+      {{- end }}  
+
+{{- end }}
