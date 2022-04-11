@@ -102,6 +102,8 @@ wordpress:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
 
+  rss_url: ""
+
 mysql:
   enabled: false
   auth:

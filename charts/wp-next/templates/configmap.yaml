@@ -10,6 +10,7 @@ data:
   WORDPRESS_DB_USER: {{ required "Missing value mysql.auth.username" .Values.mysql.auth.username }}
   WORDPRESS_DESCRIPTION: "{{ .Values.wordpress.description }}"
   WORDPRESS_PERMALINK_STRUCTURE: "{{ .Values.wordpress.permalink_structure }}"
+  WORDPRESS_RSS_URL: "{{ .Values.wordpress.rss_url }}"
   WORDPRESS_TITLE: "{{ .Values.wordpress.title }}"
   NEXT_PUBLIC_WORDPRESS_URL: "https://{{ template "next_public_wordpress_domain" . }}"
   NEXT_PRIVATE_WORDPRESS_URL: "{{ template "next_private_wordpress_url" . }}"
