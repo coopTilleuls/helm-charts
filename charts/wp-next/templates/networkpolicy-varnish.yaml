@@ -1,4 +1,5 @@
 {{- if .Values.networkPolicy.enabled }}
+{{- if .Values.varnish.enabled }}
 kind: NetworkPolicy
 {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
 apiVersion: networking.k8s.io/v1
@@ -6,30 +7,25 @@ apiVersion: networking.k8s.io/v1
 apiVersion: extensions/v1beta1
 {{- end }}
 metadata:
-  name: {{ .Release.Name }}-wordpress
+  name: {{ .Release.Name }}-varnish
   labels:
     release: {{ .Release.Name }}
-    app: wordpress
+    app: varnish
 spec:
   podSelector:
     matchLabels:
       release: {{ .Release.Name }}
-      app: wordpress
+      app: varnish
   ingress:
     # Allow inbound connections
     - ports:
-      - port: 8080
+      - port: {{ .Values.varnish.service.port }}
       from:
-      {{- if .Values.varnish.enabled }}
-      - podSelector:
-          matchLabels:
-            release: {{ .Release.Name }}
-            app: varnish
-      {{- end }}
       {{- range .Values.networkPolicy.namespaceSelectors }}
       - podSelector: {}
         namespaceSelector:
           matchLabels:
           {{- toYaml . | nindent 12 }}
       {{- end }}  
+{{- end }}
 {{- end }}

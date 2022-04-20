@@ -1,0 +1,17 @@
+{{- if .Values.varnish.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-varnish-purge
+  labels:
+spec:
+  clusterIP: none
+  ports:
+    - port: {{ .Values.varnish.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    release: "{{ .Release.Name }}"
+    app: varnish
+{{- end }}

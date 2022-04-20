@@ -34,9 +34,10 @@ frontend:
     #      - chart-example.local
   
   resources: {}
+    # requests:
     #   cpu: 100m
     #   memory: 128Mi
-    # requests:
+    # limits:
     #   cpu: 100m
     #   memory: 128Mi
   
@@ -112,6 +113,28 @@ mysql:
     database: "change_me"
     rootPassword: "change_me"
   external_host: "your_external_database_ip"
+
+varnish:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: "your_repo/your_path/varnish"
+    pullPolicy: IfNotPresent
+    tag: "your_tag"
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # always ensure memory request is enough for cacheSize
+  cacheSize: "20M"
+  resources:
+    requests:
+      #cpu: 100m
+      memory: 30Mi
+    limits: {}
+      #cpu: 100m
+      #memory: 128Mi
 
 site_front_domain: chart-example.local
 site_back_domain: api.chart-example.local

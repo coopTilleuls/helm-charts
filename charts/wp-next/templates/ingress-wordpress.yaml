@@ -21,7 +21,13 @@ spec:
             pathType: Prefix
             backend:
               service:
+              {{- if .Values.varnish.enabled }}
+                name: {{ $.Release.Name }}-varnish
+                port:
+                  number: {{ $.Values.varnish.service.port }}
+              {{- else }}
                 name: {{ $.Release.Name }}-wordpress
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ $.Values.wordpress.service.port }}
+              {{- end }}
 {{- end }}

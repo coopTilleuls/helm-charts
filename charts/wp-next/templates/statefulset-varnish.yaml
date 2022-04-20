@@ -1,0 +1,43 @@
+{{- if .Values.varnish.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-varnish
+  labels:
+    release: {{ .Release.Name }}
+    app: varnish
+spec:
+  serviceName: "varnish-purge"
+  replicas: {{ .Values.varnish.replicaCount }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+      app: varnish
+  template:
+    metadata:
+      labels:
+        release: {{ .Release.Name }}
+        app: varnish
+    spec:
+      containers:
+      - name: varnish
+        image: {{ .Values.varnish.image.repository }}:{{ .Values.varnish.image.tag }}
+        imagePullPolicy: {{ .Values.varnish.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.varnish.service.port }}
+            protocol: TCP
+        env:
+         - name: VARNISH_SIZE
+           value: {{.Values.varnish.cacheSize }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.varnish.service.port }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.varnish.service.port }}
+        resources:
+          {{- toYaml .Values.varnish.resources | nindent 10 }}
+{{- end }}
