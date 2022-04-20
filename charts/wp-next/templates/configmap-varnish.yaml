@@ -7,4 +7,5 @@ data:
   VARNISH_BACKEND_HOST: "{{ .Release.Name }}-varnish"
   VARNISH_BACKEND_PORT: {{ .Values.wordpress.service.port }}
   VARNISH_SIZE: "{{.Values.varnish.cacheSize }}"
+  VARNISH_PURGE_AUTHORIZATION: "{{ .Values.value.purge.authorization }}"
 {{- end }}

@@ -122,6 +122,10 @@ varnish:
     pullPolicy: IfNotPresent
     tag: "your_tag"
 
+  purge:
+    # Update with "Basic random_base64"
+    authorization: "change me"
+
   service:
     type: ClusterIP
     port: 80

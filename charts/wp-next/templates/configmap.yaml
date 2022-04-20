@@ -20,3 +20,8 @@ data:
   MIGRATEDB_FROM: ""
   API_URL: "{{ template "api_url" . }}"
   VERCEL_DEPLOY_URL: "{{ .Values.vercel.deploy_url }}"
+  {{- if .Values.varnish.enabled }}
+  VARNISH_HOST: "{{ .Release.Name }}-varnish"
+  VARNISH_PORT: {{ .Values.varnish.service.port }}
+  VARNISH_PURGE_AUTHORIZATION: "{{ .Values.value.purge.authorization }}"
+  {{- end }}
