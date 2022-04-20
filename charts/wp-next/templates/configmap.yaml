@@ -23,5 +23,5 @@ data:
   {{- if .Values.varnish.enabled }}
   VARNISH_HOST: "{{ .Release.Name }}-varnish"
   VARNISH_PORT: {{ .Values.varnish.service.port }}
-  VARNISH_PURGE_AUTHORIZATION: "{{ .Values.value.purge.authorization }}"
+  VARNISH_PURGE_AUTHORIZATION: "{{ .Values.varnish.purge.authorization }}"
   {{- end }}
