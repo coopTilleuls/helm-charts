@@ -30,6 +30,12 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ .Release.Name }}-varnish
+        startupProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.varnish.service.port }}
+          failureThreshold: 30
+          periodSeconds: 2
         readinessProbe:
           httpGet:
             path: /

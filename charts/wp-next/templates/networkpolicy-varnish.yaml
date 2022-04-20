@@ -21,6 +21,10 @@ spec:
     - ports:
       - port: {{ .Values.varnish.service.port }}
       from:
+      - podSelector:
+          matchLabels:
+            release: {{ .Release.Name }}
+            app: wordpress
       {{- range .Values.networkPolicy.namespaceSelectors }}
       - podSelector: {}
         namespaceSelector:
