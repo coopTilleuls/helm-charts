@@ -27,9 +27,9 @@ spec:
           - name: http
             containerPort: {{ .Values.varnish.service.port }}
             protocol: TCP
-        env:
-         - name: VARNISH_SIZE
-           value: {{.Values.varnish.cacheSize }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-varnish
         readinessProbe:
           httpGet:
             path: /

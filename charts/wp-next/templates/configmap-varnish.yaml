@@ -1,0 +1,10 @@
+{{- if .Values.varnish.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-varnish
+data:
+  VARNISH_BACKEND_HOST: "{{ .Release.Name }}-varnish"
+  VARNISH_BACKEND_PORT: {{ .Values.wordpress.service.port }}
+  VARNISH_SIZE: "{{.Values.varnish.cacheSize }}"
+{{- end }}
