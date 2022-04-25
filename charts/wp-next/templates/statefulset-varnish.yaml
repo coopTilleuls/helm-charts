@@ -7,7 +7,7 @@ metadata:
     release: {{ .Release.Name }}
     app: varnish
 spec:
-  serviceName: "varnish-purge"
+  serviceName: {{ .Release.Name }}-varnish-purge
   replicas: {{ .Values.varnish.replicaCount }}
   selector:
     matchLabels:
