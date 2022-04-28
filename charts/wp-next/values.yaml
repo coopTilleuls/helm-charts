@@ -20,8 +20,8 @@ frontend:
   ingress:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: "letsencrypt-production"
+    ingressClassName: nginx
 
     hosts:
       - host: chart-example.local
@@ -73,8 +73,8 @@ wordpress:
   ingress:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: "letsencrypt-production"
+    ingressClassName: nginx
 
     hosts:
       - host: chart-example.local
