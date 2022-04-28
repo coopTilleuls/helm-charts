@@ -2,7 +2,7 @@ apiVersion: v2
 name: wp-next
 description: Wordpress and NextJs deployment, with Vercel
 type: application
-version: 1.5.0
+version: 1.5.1
 dependencies:
   - name: mysql
     version: 8.8.16

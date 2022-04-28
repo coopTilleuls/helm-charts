@@ -12,7 +12,7 @@ metadata:
 spec:
   {{- if .Values.frontend.ingress.ingressClassName }}
   ingressClassName: {{ .Values.frontend.ingress.ingressClassName }}
-  {{- end -}}
+  {{- end }}
   tls:
   - hosts:
     - {{ template "wordpress_front_domain" . }}

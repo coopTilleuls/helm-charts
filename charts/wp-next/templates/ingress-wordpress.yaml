@@ -11,7 +11,7 @@ metadata:
 spec:
   {{- if .Values.wordpress.ingress.ingressClassName }}
   ingressClassName: {{ .Values.wordpress.ingress.ingressClassName }}
-  {{- end -}}
+  {{- end }}
   tls:
   - hosts:
     - {{ template "next_public_wordpress_domain" . }}
