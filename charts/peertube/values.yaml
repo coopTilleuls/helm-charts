@@ -19,7 +19,7 @@ peertube:
   storage:
     storageClassName: "standard"
     requests:
-      storage: "10Gi"
+      storage: "1Gi"
   resources:
     requests:
       cpu: "0m"
