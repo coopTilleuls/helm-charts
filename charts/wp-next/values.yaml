@@ -95,7 +95,7 @@ wordpress:
 
   persistence:
     enabled: true
-    size: 10Gi
+    size: 1Gi
   
   autoscaling:
     enabled: false
