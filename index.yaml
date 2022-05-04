@@ -47,6 +47,20 @@ entries:
     version: 1.0.0
   wp-next:
   - apiVersion: v2
+    created: "2022-05-04T14:31:28.61176854Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.8.16
+    description: Wordpress and NextJs deployment, with Vercel
+    digest: 34dd07c9ed36dc2c41d1cdd89d4ac1a3a80d52117600aab253cbc49c2cc180ab
+    name: wp-next
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.5.2/wp-next-1.5.2.tgz
+    version: 1.5.2
+  - apiVersion: v2
     created: "2022-04-28T13:53:00.924045095Z"
     dependencies:
     - condition: mysql.enabled
@@ -256,4 +270,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-04-28T13:53:00.924307098Z"
+generated: "2022-05-04T14:31:28.611892337Z"
