@@ -42,6 +42,7 @@ api:
     secret_key: |
       change secret key
     passphrase: changme
+  app_env: prod
 
 dns_suffix: preprod.example.com
 #       $dns_suffix : test site

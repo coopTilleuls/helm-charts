@@ -4,7 +4,7 @@ metadata:
   name: {{ .Release.Name }}-php
 data:
   APP_ENV: prod
-  #APP_ENV: dev
+  APP_ENV: {{ .Values.api.php.app_env | quote }}
   #APP_DEBUG: "1"
   CORS_ALLOW_ORIGIN: ^https?://(admin-)?{{ .Values.dns_suffix | replace "." "\\." }}$
   TRUSTED_HOSTS: ^(admin-)?{{ .Values.dns_suffix | replace "." "\\\\." }}|localhost|127.0.0.1$
