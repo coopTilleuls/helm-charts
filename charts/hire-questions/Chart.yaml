@@ -1,6 +1,6 @@
 apiVersion: v2
-name: api-platform-spa
-description: API platform plus Single Page Application
+name: hire-questions
+description: hire questions
 type: application
 version: 1.0.1
 dependencies:
