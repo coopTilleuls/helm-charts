@@ -1,5 +1,21 @@
 apiVersion: v1
 entries:
+  api-platform-spa:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-05-05T13:10:37.419663201Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.8.16
+    description: API platform plus Single Page Application
+    digest: aa2af92b2450207561beea8988ddfda3a0b752b520fdd0cb6ae76b0ed71b811d
+    name: api-platform-spa
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/api-platform-spa-1.0.1/api-platform-spa-1.0.1.tgz
+    version: 1.0.1
   domain-redirection:
   - apiVersion: v2
     created: "2022-02-23T10:43:18.284058331Z"
@@ -284,4 +300,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-05-04T14:39:50.325324242Z"
+generated: "2022-05-05T13:10:37.419745502Z"
