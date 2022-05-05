@@ -32,6 +32,22 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/domain-redirection-1.0.1/domain-redirection-1.0.1.tgz
     version: 1.0.1
+  hire-questions:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-05-05T14:57:21.498224219Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.8.16
+    description: hire questions
+    digest: a1136e4ea804582391af638055cf7c73fa928b328e7099ab6145a2fb57e9ba19
+    name: hire-questions
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/hire-questions-1.0.1/hire-questions-1.0.1.tgz
+    version: 1.0.1
   peertube:
   - apiVersion: v2
     created: "2022-05-04T14:39:50.32515174Z"
@@ -300,4 +316,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-05-05T13:10:37.419745502Z"
+generated: "2022-05-05T14:57:21.498287719Z"
