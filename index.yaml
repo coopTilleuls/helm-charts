@@ -35,6 +35,21 @@ entries:
   hire-questions:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-05-06T07:28:43.490796108Z"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.8.16
+    description: hire questions
+    digest: 14159275eff8dff57fb8ee7ea526fd38bdb8d662689971228dde5c154234cb89
+    name: hire-questions
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/hire-questions-1.0.2/hire-questions-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-05-05T14:57:21.498224219Z"
     dependencies:
     - condition: mysql.enabled
@@ -316,4 +331,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-05-05T14:57:21.498287719Z"
+generated: "2022-05-06T07:28:43.490869809Z"
