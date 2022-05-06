@@ -10,5 +10,5 @@
   {{- else -}}
     {{- .Values.mysql.external_host -}}
   {{- end -}}
-  :3306/{{ .Values.mysql.auth.database }}?serverVersion=5.8
+  :3306/{{ .Values.mysql.auth.database }}
 {{- end }}
