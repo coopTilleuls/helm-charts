@@ -37,12 +37,6 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.api.caddy.resources | nindent 12 }}
-          env:
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Release.Name }}-mysql
-                key: mysql-password
           envFrom:
           - configMapRef:
               name: {{ .Release.Name }}-caddy
