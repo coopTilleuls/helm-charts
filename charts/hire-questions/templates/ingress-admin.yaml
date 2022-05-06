@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - admin-{{ .Values.dns_suffix }}
-      secretName: admin
+      secretName: {{ .Release.Name }}-admin
   rules:
     - host: admin-{{ .Values.dns_suffix }}
       http:

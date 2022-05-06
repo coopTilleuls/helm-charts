@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.dns_suffix }}
-      secretName: spa
+      secretName: {{ .Release.Name }}-spa
   rules:
     - host: {{ .Values.dns_suffix }}
       http:

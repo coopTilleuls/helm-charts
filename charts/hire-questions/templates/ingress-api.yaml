@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - api-{{ .Values.dns_suffix }}
-      secretName: api
+      secretName: {{ .Release.Name }}-api
   rules:
     - host: api-{{ .Values.dns_suffix }}
       http:
