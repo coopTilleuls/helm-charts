@@ -2,7 +2,7 @@ apiVersion: v2
 name: hire-questions
 description: hire questions
 type: application
-version: 1.0.1
+version: 1.0.2
 dependencies:
   - name: mysql
     version: 8.8.16
