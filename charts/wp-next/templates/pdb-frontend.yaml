@@ -1,0 +1,11 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-frontend-pdb
+spec:
+  maxUnavailable: {{ .Values.frontend.pdb.maxUnavailable }} 
+  selector:
+    matchLabels:
+      app: frontend
+{{- end }}

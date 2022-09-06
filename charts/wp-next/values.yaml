@@ -5,6 +5,9 @@ vercel:
 frontend:
   enabled: false
   replicaCount: 1
+
+  pdb:
+    maxUnavailable: 1
   
   image:
     repository: "your_repo/your_path/frontend"
