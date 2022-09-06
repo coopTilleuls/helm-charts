@@ -50,6 +50,10 @@ frontend:
 
 wordpress:
   replicaCount: 1
+
+  pdb:
+    name: wordpress
+    maxUnavailable: 1
   
   image:
     repository: "your_repo/your_path/frontend"
