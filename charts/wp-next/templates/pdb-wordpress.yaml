@@ -3,7 +3,7 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ .Values.wordpress.pdb.name }}-pdb
 spec:
-  maxUnavailable: {{ .Values.wordpress.pdb.maxUnavailable }}
+  maxUnavailable: {{ .Values.wordpress.pdb.maxUnavailable }} 
   selector:
     matchLabels:
       app: wordpress
