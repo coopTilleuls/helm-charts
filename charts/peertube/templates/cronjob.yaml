@@ -23,7 +23,7 @@ spec:
               export NODE_ENV=production
               node /app/dist/server/tools/peertube.js auth add -u "https://{{ index .Values.peertube.urls 0 }}" -U "{{ .Values.peertube.user }}" --password "{{ .Values.peertube.password }}"
               node /app/dist/server/tools/peertube.js import-videos --target-url "{{ .Values.peertube.import_job.target_url }}"
-            image: chocobozzz/peertube:v4.1.1-bullseye
+            image: chocobozzz/peertube:v4.3.0-bullseye
             imagePullPolicy: IfNotPresent
             name: peertube
             resources: {{- toYaml .Values.peertube.import_job.resources | nindent 14 }}
