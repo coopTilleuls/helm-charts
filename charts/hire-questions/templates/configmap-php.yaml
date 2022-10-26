@@ -13,5 +13,5 @@ data:
   APP_SECRET: 339bb121f10f62a068521627b9edc34d
   JWT_SECRET_KEY: "%kernel.project_dir%/config/jwt/private.pem"
   JWT_PUBLIC_KEY: "%kernel.project_dir%/config/jwt/public.pem"
-  MAILER_DSN: "null://null"
+  MAILER_DSN: {{ .Values.mailer.dsn }}
   NOTIFICATION_SENDERS: "[\"gregoire@les-tilleuls.coop\"]"

@@ -63,6 +63,10 @@ mysql:
     rootPassword: "change_me"
   external_host: "your_external_database_ip"
 
+# @see https://symfony.com/doc/current/mailer.html
+mailer:
+  dsn: "smtp://user:pass@smtp.example.com:port"
+
 networkPolicy:
   enabled: true
   # List of namespaces to allow, based on their labels
