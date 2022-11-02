@@ -5,6 +5,8 @@ metadata:
   labels:
     app: peertube
 spec:
+  strategy:
+    type: recreate
   replicas: 1
   selector:
     matchLabels:
