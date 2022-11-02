@@ -155,6 +155,20 @@ entries:
     version: 1.0.1
   peertube:
   - apiVersion: v2
+    created: "2022-11-02T14:34:27.575799872Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.9
+    description: Peertube and Postgres deployment, based on https://github.com/coopgo/peertube-k8s
+    digest: b1743579c6c971a8b67d5e030846ff2c9d2aa23845a8135f7ba54581deb82656
+    name: peertube
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/peertube-1.0.5/peertube-1.0.5.tgz
+    version: 1.0.5
+  - apiVersion: v2
     created: "2022-11-02T10:03:21.434350582Z"
     dependencies:
     - condition: postgresql.enabled
@@ -533,4 +547,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2022-11-02T10:03:21.434557187Z"
+generated: "2022-11-02T14:34:27.575922573Z"
