@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: peertube
-          image: chocobozzz/peertube:v4.1.1-bullseye
+          image: chocobozzz/peertube:v4.3.0-bullseye
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
