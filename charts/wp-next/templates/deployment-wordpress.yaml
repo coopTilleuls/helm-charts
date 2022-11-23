@@ -69,12 +69,12 @@ spec:
           httpGet:
             path: /wp-json
             port: {{ .Values.wordpress.service.port }}
-          timeoutSeconds: 2
+          timeoutSeconds: 3
         readinessProbe:
           httpGet:
             path: /wp-json
             port: {{ .Values.wordpress.service.port }}
-          timeoutSeconds: 2
+          timeoutSeconds: 3
         resources:
           {{- toYaml .Values.wordpress.resources | nindent 12 }}
         volumeMounts:
