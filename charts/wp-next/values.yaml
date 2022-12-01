@@ -69,7 +69,7 @@ wordpress:
   description: ""
   permalink_structure: "/%year%/%monthnum%/%day%/%postname%/"
   title: "change_me"
-  
+
   podAnnotations: {}
   
   service:
@@ -91,7 +91,8 @@ wordpress:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
-  
+
+
   resources: {}
     #   cpu: 100m
     #   memory: 128Mi
@@ -110,6 +111,7 @@ wordpress:
     targetCPUUtilizationPercentage: 80
 
   rss_url: ""
+next_validation_token: "change_me"
 
 mysql:
   enabled: false
@@ -148,7 +150,6 @@ varnish:
 
 site_front_domain: chart-example.local
 site_back_domain: api.chart-example.local
-
 networkPolicy:
   enabled: true
   # List of namespaces to allow, based on their labels
