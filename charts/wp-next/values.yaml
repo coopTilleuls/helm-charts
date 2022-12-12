@@ -36,10 +36,10 @@ frontend:
     #    hosts:
     #      - chart-example.local
   
-  resources: {}
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  resources:
+    requests:
+      cpu: 30m
+      memory: 300Mi
     # limits:
     #   cpu: 100m
     #   memory: 128Mi
