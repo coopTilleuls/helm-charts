@@ -2,9 +2,9 @@ apiVersion: v2
 name: wp-next
 description: Wordpress and NextJs deployment, with Vercel
 type: application
-version: 1.5.13
+version: 1.5.14
 dependencies:
   - name: mysql
-    version: 9.3.1
+    version: 9.9.0
     repository: https://charts.bitnami.com/bitnami
     condition: mysql.enabled
