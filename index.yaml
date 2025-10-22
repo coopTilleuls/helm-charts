@@ -155,6 +155,15 @@ entries:
     version: 1.0.1
   peertube:
   - apiVersion: v2
+    created: "2025-10-22T13:12:26.257362898Z"
+    description: Peertube and Postgres deployment, based on https://github.com/coopgo/peertube-k8s
+    digest: 1d91376083e95a33697cb92d5a7b1d294aa30942ddcecd0e5b8f2aedf1c34f84
+    name: peertube
+    type: application
+    urls:
+    - https://github.com/coopTilleuls/helm-charts/releases/download/peertube-1.1.0/peertube-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     created: "2022-11-03T09:16:08.11633416Z"
     dependencies:
     - condition: postgresql.enabled
@@ -673,4 +682,4 @@ entries:
     urls:
     - https://github.com/coopTilleuls/helm-charts/releases/download/wp-next-1.0.1/wp-next-1.0.1.tgz
     version: 1.0.1
-generated: "2023-08-07T12:44:56.198793404Z"
+generated: "2025-10-22T13:12:26.257558253Z"
