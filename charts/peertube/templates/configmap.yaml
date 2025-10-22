@@ -7,7 +7,7 @@ data:
   POSTGRES_DB: {{ .Values.postgresql.auth.database }}
   PEERTUBE_DB_USERNAME: {{ .Values.postgresql.auth.username }}
   PEERTUBE_DB_SSL: "false"
-  PEERTUBE_DB_HOSTNAME: {{ include "postgresql_host" . }}
+  PEERTUBE_DB_HOSTNAME: {{ .Values.postgresql.db_hostname }}
   PEERTUBE_DB_PORT: "5432"
   PEERTUBE_WEBSERVER_HOSTNAME: {{ index .Values.peertube.urls 0 }}
   PEERTUBE_SMTP_USERNAME: {{ .Values.peertube.smtp.user }}
@@ -25,5 +25,4 @@ data:
   PEERTUBE_OBJECT_STORAGE_VIDEOS_BUCKET_NAME: {{ .Values.peertube.object_storage.bucket_name }}
   PEERTUBE_OBJECT_STORAGE_VIDEOS_PREFIX: "videos/"
   PEERTUBE_INSTANCE_NAME: {{ .Values.peertube.instance_name | quote }}
-  PEERTUBE_INSTANCE_DESCRIPTION: {{ .Values.peertube.instance_desc | quote }} 
-
+  PEERTUBE_INSTANCE_DESCRIPTION: {{ .Values.peertube.instance_desc | quote }}

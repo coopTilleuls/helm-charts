@@ -8,16 +8,16 @@ spec:
     app: peertube
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-      name: http
-    - protocol: TCP
       port: 25
       targetPort: 25
       name: smtp
     - protocol: TCP
-      port: 9000
-      targetPort: 9000
+      port: {{ .Values.ports.nginxproxyPort }}
+      targetPort: {{ .Values.ports.nginxproxyPort }}
+      name: nginx-proxy
+    - protocol: TCP
+      port: {{ .Values.ports.peertubePort }}
+      targetPort: {{ .Values.ports.peertubePort }}
       name: peertube
     - protocol: TCP
       name: rtmp

@@ -1,0 +1,28 @@
+{{ if .Values.postgresql.enabled -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cluster-pg-{{ .Release.Name }}-peertube
+type: kubernetes.io/basic-auth
+data:
+  username: {{ .Values.postgresql.auth.username | b64enc }}
+  password: {{ .Values.postgresql.auth.password | b64enc }}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-pg-peertube
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgresql.auth.database }}
+      owner: {{ .Values.postgresql.auth.username }}
+      secret:
+        name: cluster-pg-{{ .Release.Name }}-peertube
+  managed:
+    services:
+      disabledDefaultServices: ["ro", "r"]
+  storage:
+    size: {{ .Values.postgresql.primary.persistence.size }}
+{{- end }}

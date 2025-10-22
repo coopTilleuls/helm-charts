@@ -16,16 +16,43 @@ spec:
       labels:
         app: peertube
     spec:
+      initContainers:
+        - name: peertube-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: peertube-data
+              mountPath: /data
+            - name: peertube-config
+              mountPath: /config
+            - mountPath: /init
+              name: peertube-init
+              readOnly: true
+            - name: peertube-assets
+              mountPath: /assets
+          command:
+            - sh
+            - /init/peertube-init.sh
+        - name: peertube-chown
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: peertube-data
+              mountPath: /data
+            - name: peertube-config
+              mountPath: /config
+            - mountPath: /init
+              name: peertube-chown
+              readOnly: true
+          command:
+            - sh
+            - /init/peertube-chown.sh
       containers:
         - name: peertube
-          image: chocobozzz/peertube:v4.3.0-bullseye
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 80
-              name: http
-            - containerPort: 443
-              name: https
-            - containerPort: 9000
+            - containerPort: {{ .Values.ports.peertubePort }}
               name: peertube
             - containerPort: 1935
               name: rtmp
@@ -44,6 +71,8 @@ spec:
           volumeMounts:
             - name: peertube-data
               mountPath: /data
+            - name: peertube-config
+              mountPath: /config
           resources: {{- toYaml .Values.peertube.resources | nindent 12 }}
         - name: redis
           image: redis:6-alpine
@@ -51,11 +80,67 @@ spec:
           ports:
             - containerPort: 6379
               name: redis
+        - name: nginx-proxy
+          image: "{{ .Values.nginxproxy.image.repository }}:{{ .Values.nginxproxy.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.ports.nginxproxyPort }}
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 300
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+          volumeMounts:
+            - name: nginx-temp
+              mountPath: /nginxtemp
+            - mountPath: /etc/nginx/conf.d
+              name: nginx-proxyconf
+              readOnly: true
+            - name: peertube-assets
+              mountPath: /assets
+              readOnly: true
+            - name: peertube-data
+              mountPath: /data
       volumes:
         - name: peertube-data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-peertube-data
+        - name: peertube-config
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-peertube-config
+        - name: peertube-assets
+          emptyDir: {}
+        - name: nginx-temp
+          emptyDir: {}
+        - configMap:
+            defaultMode: 420
+            name: peertube-init
+          name: peertube-init
+        - configMap:
+            defaultMode: 420
+            name: peertube-chown
+          name: peertube-chown
+        - configMap:
+            defaultMode: 420
+            name: nginx-proxyconf
+          name: nginx-proxyconf
+
 ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -67,4 +152,16 @@ spec:
   resources:
     requests:
       storage: {{ .Values.peertube.storage.requests.storage }}
+---
 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-peertube-config
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  storageClassName: {{ .Values.peertube.storage.storageClassName }}
+  resources:
+    requests:
+      storage: {{ .Values.peertube.storage.requests.storage }}

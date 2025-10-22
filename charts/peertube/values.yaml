@@ -1,3 +1,18 @@
+image:
+  repository: chocobozzz/peertube
+  tag: production-bookworm
+  pullPolicy: IfNotPresent
+
+ports:
+  # peertubePort should be the same than the port in your Peertube production.yml configuration. Default to 9000
+  # nginxproxyPort is used for nginx-proxy, and should be different from the Peertube port.
+  # The chart uses the correct port for service and ingress according to configuration
+  # livePort is a directly exposed TCP port used for the live streaming feature.
+  # Should match your live configuration in production.yml, and default to 1935
+  peertubePort: 9000
+  nginxproxyPort: 9001
+  livePort: 1935
+
 peertube:
   urls:
     - "change_me"
@@ -5,6 +20,7 @@ peertube:
   cluster_issuer: "letsencrypt-production"
   user: "change_me "
   password: "change_me"
+  app_secret: "change_me_with_random_32_characters"
   import_job:      
     #The link of video or the all videos of a channel to sync with your peertube
     target_url: " "
@@ -45,9 +61,10 @@ peertube:
   instance_desc: "change_me"
 
 postgresql:
+  # enabling this will deploy a cluster, you need the pg operator https://cloudnative-pg.io
   enabled: true
   #Only set db_hostname when you use external postgres database
-  #db_hostname: "change_me"
+  db_hostname: "change_me"
   auth:
     username: "peertube" 
     password: "change_me" 
@@ -61,3 +78,11 @@ postgresql:
         cpu: "0"
         memory: "40Mi"
 
+# WARNING nginxproxy is not compatible with live at the moment
+# Because it search .../streaming-playlists/... in URL path directly in filesystem path
+# and if you use .../streaming_playlists/... on filesystem, live is broken (notice the - vs _)
+nginxproxy:
+  image:
+    repository: nginx
+    tag: 1.17.9
+  maxbodysize: 8G

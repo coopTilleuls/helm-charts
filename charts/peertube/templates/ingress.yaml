@@ -15,8 +15,6 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     #Unlimited for the uploading videos in cronjob
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_headers "X-Frame-Options: ALLOWALL";
 spec:
   ingressClassName: nginx
   tls:
@@ -34,5 +32,5 @@ spec:
               service:
                 name: {{ $.Release.Name }}-peertube
                 port: 
-                  number: 9000
+                  number: 9001
       {{- end }}      
