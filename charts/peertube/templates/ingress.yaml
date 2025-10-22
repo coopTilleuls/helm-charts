@@ -18,6 +18,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_headers "X-Frame-Options: ALLOWALL";
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       {{- toYaml .Values.peertube.urls | nindent 8 }}
